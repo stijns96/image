@@ -125,7 +125,9 @@ export function parseSizes(input: Record<string, string | number> | string): Rec
   const sizes: Record<string, string> = {}
   // string => object
   if (typeof input === 'string') {
-    for (const entry of input.split(/[\s,]+/).filter(e => e)) {
+    const entries = input.match(/(\S+:calc\([^)]+\))|(\S+)/g) || []
+
+    for (const entry of entries) {
       const s = entry.split(':')
       if (s.length !== 2) {
         sizes['1px'] = s[0]!.trim()
